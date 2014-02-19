@@ -8,6 +8,16 @@ Coinfloor = {
 		var tag = request.tag = ++this._tag;
 		this._websocket.send(JSON.stringify(request));
 		this._result_handlers[tag] = callback;
+		this._reset_idle_ping_timer();
+	},
+
+	_reset_idle_ping_timer: function () {
+		if (this._idle_ping_timer_id) {
+			clearTimeout(this._idle_ping_timer_id);
+		}
+		this._idle_ping_timer_id = setTimeout(function () {
+			Coinfloor._do_request({ }, function () { });
+		}, 45000);
 	},
 
 	/*
@@ -19,6 +29,7 @@ Coinfloor = {
 	connect: function (url, callback) {
 		var ws = this._websocket = new WebSocket(url || "ws://api.coinfloor.co.uk/");
 		var handler = function (event) {
+			Coinfloor._reset_idle_ping_timer();
 			var msg = JSON.parse(event.data);
 			if (msg.tag !== undefined) {
 				var handler = Coinfloor._result_handlers[msg.tag];
@@ -47,6 +58,7 @@ Coinfloor = {
 			}
 		};
 		ws.onmessage = function (event) {
+			Coinfloor._reset_idle_ping_timer();
 			var msg = JSON.parse(event.data);
 			Coinfloor._server_nonce = atob(msg.nonce);
 			this.onmessage = handler;
