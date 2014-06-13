@@ -72,16 +72,26 @@ Coinfloor = {
 	 * and passphrase.
 	 */
 	authenticate: function (user_id, cookie, passphrase, callback) {
+		this._authenticate(user_id, cookie, { passphrase: passphrase }, callback);
+	},
+
+	_authenticate: function (user_id, cookie, secret, callback) {
 		var packed_user_id = String.fromCharCode(0, 0, 0, 0, user_id >> 24 & 0xFF, user_id >> 16 & 0xFF, user_id >> 8 & 0xFF, user_id & 0xFF);
 		var client_nonce = "";
 		for (var i = 0; i < 16; ++i) {
 			client_nonce += String.fromCharCode(Math.random() * 256);
 		}
-		this._worker.postMessage({
+		var data = {
 			op: "sign",
-			seed: packed_user_id + unescape(encodeURIComponent(passphrase)),
 			content: packed_user_id + this._server_nonce + client_nonce
-		});
+		};
+		if (secret.privkey) {
+			data.privkey = secret.privkey;
+		}
+		else {
+			data.seed = packed_user_id + unescape(encodeURIComponent(secret.passphrase));
+		}
+		this._worker.postMessage(data);
 		this._worker_handlers.push(function (data) {
 			this._do_request({
 				method: "Authenticate",
