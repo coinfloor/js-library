@@ -2,7 +2,7 @@ Coinfloor = {
 	_worker: new Worker("coinfloor_worker.js"),
 	_worker_handlers: [],
 	_tag: 0,
-	_result_handlers: [],
+	_result_handlers: {},
 
 	_do_request: function (request, callback) {
 		var tag = request.tag = ++this._tag;
@@ -16,7 +16,7 @@ Coinfloor = {
 			clearTimeout(this._idle_ping_timer_id);
 		}
 		this._idle_ping_timer_id = setTimeout(function () {
-			Coinfloor._do_request({ }, function () { });
+			Coinfloor._do_request({ }, null);
 		}, 45000);
 	},
 
