@@ -11,9 +11,7 @@ Each API method accepts a callback function object that will be invoked when the
 
 ### Example
 
-Please take a look at our [example client][], which implements a stop-loss bot using this JavaScript client library. When the market price reaches a specified threshold, the bot will execute a market order to sell a specified quantity of XBT. Feel free to let us know if you are having any issues or if you have any improvements for us to make.
-
-[example client]: http://coinfloor.co.uk/beta/js-library/stop_loss.html
+Please take a look at the Coinfloor trade page, which has been implemented using this JavaScript client library.
 
 
 ## Sign up to our beta
