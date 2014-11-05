@@ -205,6 +205,15 @@ Coinfloor = {
 	},
 
 	/*
+	 * Cancels all open orders belonging to the authenticated user.
+	 */
+	cancelAllOrders: function (callback) {
+		this._do_request({
+			method: "CancelAllOrders"
+		}, callback);
+	},
+
+	/*
 	 * Retrieves the trailing 30-day trading volume of the authenticated user
 	 * in the specified asset.
 	 */
