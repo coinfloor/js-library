@@ -1,3 +1,5 @@
+"use strict";
+
 importScripts("ecp.js", "sha.js");
 
 /*

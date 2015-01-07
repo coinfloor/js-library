@@ -14,11 +14,6 @@ Each API method accepts a callback function object that will be invoked when the
 Please take a look at the Coinfloor trade page, which has been implemented using this JavaScript client library.
 
 
-## Sign up to our beta
-
-Are you interested in getting rewarded for testing out our trade engine? Sign up to our [private beta](http://eepurl.com/MeuYr).
-
-
 ## API
 
 For an explanation of our API methods and what they return, please see our [API specification](https://github.com/coinfloor/API).
